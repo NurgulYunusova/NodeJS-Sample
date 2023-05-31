@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
 
 let suppliers = [
   {
@@ -422,6 +423,18 @@ app.get("/api/suppliers", function (req, res) {
   res.json(suppliers);
 });
 
+app.post("/api/suppliers", (req, res) => {
+  console.log(req.body);
+  let newSupplier = {
+    companyName: req.body.companyName,
+    contactName: req.body.contactName,
+  };
+
+  suppliers.push(newSupplier);
+
+  res.send("OK");
+});
+
 app.get("/api/suppliers/:id", function (req, res) {
   let id = req.params.id;
   let supplier = suppliers.find((q) => q.id == id);
@@ -435,4 +448,6 @@ app.delete("/api/suppliers/:id", function (req, res) {
   res.json(suppliers);
 });
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log("Express is running...");
+});
